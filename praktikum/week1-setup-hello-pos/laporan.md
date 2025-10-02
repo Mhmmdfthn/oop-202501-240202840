@@ -2,9 +2,9 @@
 Topik: [Tuliskan judul topik, misalnya "Class dan Object"]
 
 ## Identitas
-- Nama  : [Nama Mahasiswa]
-- NIM   : [NIM Mahasiswa]
-- Kelas : [Kelas]
+- Nama  : [Muhamamd Nuur Fathan]
+- NIM   : [240202840]
+- Kelas : [3IKRA]
 
 ---
 
