@@ -1,5 +1,5 @@
 # Laporan Praktikum Minggu 1 
-Topik: [WEEK 1 – Setup Hello POS]
+## Topik: [WEEK 1 – Setup Hello POS]
 
 ## Identitas
 - Nama    : [Muhamamd Nuur Fathan]
@@ -148,7 +148,9 @@ Dari ketiga implementasi di atas terlihat perbedaan paradigma:
    Fungsional: maintainability cukup tinggi karena sifat stateless dan immutable, mengurangi bug akibat perubahan data. Skalabilitas bagus untuk aplikasi data-intensive, tetapi tidak selalu intuitif jika digunakan untuk sistem berbasis objek nyata.
 
 4. **Mengapa OOP lebih cocok untuk aplikasi POS dibanding prosedural?**
+
    POS (Point of Sales) terdiri dari banyak entitas seperti Produk, Pelanggan, Transaksi, dan Inventori. Dengan OOP, setiap entitas bisa direpresentasikan sebagai class dengan atribut dan perilaku masing-masing. Hal ini memudahkan pemodelan dunia nyata ke dalam kode. Selain itu, OOP mendukung fitur pewarisan (inheritance), polimorfisme, dan enkapsulasi, yang membuat pengembangan aplikasi lebih fleksibel, terstruktur, serta lebih mudah di-maintain ketika kebutuhan bisnis bertambah atau berubah.
 
-5. **Bagaimana paradigma fungsional membantu mengurangi boilerplate code?**
-   Paradigma fungsional memanfaatkan konsep seperti lambda expression, higher-order function, dan function composition yang memungkinkan developer menulis kode lebih ringkas. Daripada menulis loop panjang atau class tambahan, developer cukup mendefinisikan fungsi sekali lalu digunakan kembali di berbagai konteks. Karena data bersifat immutable, developer juga tidak perlu menambahkan banyak logika kontrol untuk menjaga konsistensi state. Akhirnya, kode jadi lebih singkat, modular, dan bebas dari duplikasi berlebihan
+6. **Bagaimana paradigma fungsional membantu mengurangi boilerplate code?**
+
+    Paradigma fungsional memanfaatkan konsep seperti lambda expression, higher-order function, dan function composition yang memungkinkan developer menulis kode lebih ringkas. Daripada menulis loop panjang atau class tambahan, developer cukup mendefinisikan fungsi sekali lalu digunakan kembali di berbagai konteks. Karena data bersifat immutable, developer juga tidak perlu menambahkan banyak logika kontrol untuk menjaga konsistensi state. Akhirnya, kode jadi lebih singkat, modular, dan bebas dari duplikasi berlebihan
