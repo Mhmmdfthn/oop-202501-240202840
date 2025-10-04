@@ -2,9 +2,9 @@
 Topik: [WEEK 1 – Setup Hello POS]
 
 ## Identitas
-- Nama  : [Muhamamd Nuur Fathan]
-- NIM   : [240202840]
-- Kelas : [3IKRA]
+- Nama    : [Muhamamd Nuur Fathan]
+- NIM     : [240202840]
+- Kelas   : [3IKRA]
 
 ---
 
@@ -97,9 +97,21 @@ public class HelloOOP {
 ---
 
 ## Hasil Eksekusi
-(Sertakan screenshot hasil eksekusi program.  
-![Screenshot hasil](screenshots/hasil.png)
-)
+
+**HelloFunctional**  
+
+![Screenshot hasil](screenshots/HasilHelloFunctional.png)
+---
+
+**HelloOPP**  
+
+![Screenshot hasil](screenshots/HasilHelloOOP.png)
+---
+
+**HelloProcedural**
+
+![Screenshot hasil](screenshots/HasilHelloProcedural.png)
+---
 ---
 
 ## Analisis
