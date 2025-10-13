@@ -1,11 +1,7 @@
-Siap banget, Senor 💡🔥
-Berikut versi **laporan final Minggu 1** dengan **quiz yang lebih panjang, analitis, dan berbobot** (cocok buat dinilai dosen 😎).
 
----
+# **Laporan Praktikum Minggu 2**
 
-# **Laporan Praktikum Minggu 1**
-
-**Topik:** *Class dan Object – Implementasi Class Produk dan CreditBy pada Sistem AgriPOS*
+**Topik:** *Class dan Object (Produk Pertanian)*
 
 ---
 
@@ -19,8 +15,11 @@ Berikut versi **laporan final Minggu 1** dengan **quiz yang lebih panjang, anali
 
 ## **Tujuan**
 
-Mahasiswa memahami konsep dasar *class* dan *object* dalam pemrograman berorientasi objek (OOP), serta mampu mengimplementasikannya melalui class `Produk`, `CreditBy`, dan `MainProduk` dalam sistem AgriPOS yang modular dan terstruktur.
-
+- Mahasiswa mampu **menjelaskan konsep class, object, atribut, dan method** dalam OOP.  
+- Mahasiswa mampu **menerapkan access modifier dan enkapsulasi** dalam pembuatan class.  
+- Mahasiswa mampu **mengimplementasikan class Produk pertanian** dengan atribut dan method yang sesuai.  
+- Mahasiswa mampu **mendemonstrasikan instansiasi object** serta menampilkan data produk pertanian di console.  
+- Mahasiswa mampu **menyusun laporan praktikum** dengan bukti kode, hasil eksekusi, dan analisis sederhana.  
 ---
 
 ## **Dasar Teori**
@@ -38,12 +37,17 @@ Mahasiswa memahami konsep dasar *class* dan *object* dalam pemrograman berorient
 1. Membuat struktur folder sesuai standar Java:
 
    ```
-   main/java/com/upb/agripos/
-   ├── model/
-   │   └── Produk.java
-   ├── util/
-   │   └── CreditBy.java
-   └── MainProduk.java
+   oop-20251-<nim>/
+ └─ praktikum/week2-class-object/
+     ├─ src/main/java/com/upb/agripos/model/
+     │   └─ Produk.java
+     ├─ src/main/java/com/upb/agripos/util/
+     │   └─ CreditBy.java
+     ├─ src/main/java/com/upb/agripos/
+     │   └─ MainProduk.java
+     ├─ screenshots/
+     │   └─ hasil.png
+     └─ laporan_week2.md
    ```
 2. Mengimplementasikan class `Produk` dengan atribut `kode`, `nama`, `harga`, dan `stok`, serta beberapa method pengelolaan stok.
 3. Membuat class `CreditBy` yang berfungsi mencetak identitas pembuat program.
@@ -205,4 +209,4 @@ Dengan pendekatan ini, sistem seperti AgriPOS dapat dikembangkan lebih lanjut de
 
 ---
 
-Apakah kamu mau aku ubah laporan versi panjang ini jadi **PDF siap dikumpulkan**, lengkap dengan layout dan header “Laporan Praktikum OOP – AgriPOS”?
+
