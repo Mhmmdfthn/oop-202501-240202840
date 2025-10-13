@@ -9,13 +9,24 @@ public class MainProduk {
         Produk p2 = new Produk("PPK-101", "Pupuk Urea 50kg", 350000, 40);
         Produk p3 = new Produk("ALT-501", "Cangkul Baja", 90000, 15);
 
-        System.out.println("Kode: " + p1.getKode() + ", Nama: " + p1.getNama() + ", Harga: " + p1.getHarga() + ", Stok: " + p1.getStok());
-        System.out.println("Kode: " + p2.getKode() + ", Nama: " + p2.getNama() + ", Harga: " + p2.getHarga() + ", Stok: " + p2.getStok());
-        System.out.println("Kode: " + p3.getKode() + ", Nama: " + p3.getNama() + ", Harga: " + p3.getHarga() + ", Stok: " + p3.getStok());
+        // 🔹 tampilkan semua info produk
+        p1.tampilkanInfo();
+        p2.tampilkanInfo();
+        p3.tampilkanInfo();
 
+        // Simulasi transaksi stok
+        System.out.println("\n=== Simulasi Transaksi ===");
+        // Kurangi stok benih
+        p1.kurangiStok(6);
+        // Tambah stok cangkul
+        p3.tambahStok(8);
+        // Tambah stok pupuk
+        p2.tambahStok(10);
+        // Kurangi stok pupuk
+        p2.kurangiStok(3);
+
+        // 🔹 tampilkan credit
         CreditBy.print("240202840", "Muhammad Nur Fathan");
-
-        p1.tambahStok(10);
-        System.out.println(p1.getStok());   
     }
 }
+
