@@ -29,4 +29,3 @@ public class MainProduk {
         CreditBy.print("240202840", "Muhammad Nur Fathan");
     }
 }
-
