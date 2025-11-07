@@ -1,5 +1,5 @@
-# Laporan Praktikum Minggu 1 (sesuaikan minggu ke berapa?)
-Topik: [Tuliskan judul topik, misalnya "Class dan Object"]
+# Laporan Praktikum Minggu 3 
+Bab 3 – Inheritance (Kategori Produk)
 
 ## Identitas
 - Nama  : Muhammad Nuur Fathan
@@ -203,9 +203,7 @@ public class MainInheritance {
 ---
 
 ## Hasil Eksekusi
-(Sertakan screenshot hasil eksekusi program.  
 ![Screenshot hasil](screenshots/HasilWeek3.png)
-)
 ---
 
 ## Analisis
