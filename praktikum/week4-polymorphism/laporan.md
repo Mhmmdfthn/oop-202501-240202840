@@ -159,6 +159,46 @@ public class ObatHama extends Produk {
 }
 ```
 
+### Pupuk.java (Latihan Mandiri Overriding)
+
+```java
+package main.java.com.upb.agripos.model;
+
+public class Pupuk extends Produk {
+    private String jenis; 
+
+    public Pupuk(String kode, String nama, double harga, int stok, String jenis) {
+        super(kode, nama, harga, stok);
+        this.jenis = jenis;
+    }
+
+    @Override
+    public String getInfo() {
+        return "Pupuk  : " + super.getInfo() + ", Jenis: " + jenis;
+    }
+}
+```
+
+### AlatPertanian.java (Latihan Mandiri Overriding)
+
+```java
+package main.java.com.upb.agripos.model;
+
+public class AlatPertanian extends Produk {
+    private String bahan; 
+
+    public AlatPertanian(String kode, String nama, double harga, int stok, String bahan) {
+        super(kode, nama, harga, stok);
+        this.bahan = bahan;
+    }
+
+    @Override
+    public String getInfo() {
+        return "Alat   : " + super.getInfo() + ", Bahan: " + bahan;
+    }
+}
+```
+
 ### MainPolymorphism.java (Dynamic Binding)
 
 ```java
@@ -205,12 +245,26 @@ public class MainPolymorphism {
 }
 ```
 
+### CreditBy.java
+
+```java
+package main.java.com.upb.agripos.util;
+
+public class CreditBy {
+    public static void print(String nim, String nama) {
+        System.out.println("\n=== Credit By ===");
+        System.out.println("Dikembangkan oleh: " + nama);
+        System.out.println("NIM: " + nim);
+        System.out.println("=================\n");
+    }
+}
+```
+
 ---
 
 ## Hasil Eksekusi
-(Sertakan screenshot hasil eksekusi program.  
 ![Screenshot hasil](screenshots/HasilWeek4.png)
-)
+
 ---
 
 ## Analisis
