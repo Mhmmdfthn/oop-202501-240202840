@@ -268,9 +268,8 @@ public class MainAbstraction {
 ---
 
 ## Hasil Eksekusi
-(Sertakan screenshot hasil eksekusi program.  
-![Screenshot hasil](screenshots/hasil.png)
-)
+![Screenshot hasil](screenshots/HasilWeek5.png)
+
 ---
 
 ## Analisis
