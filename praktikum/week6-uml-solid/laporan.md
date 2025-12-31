@@ -1,10 +1,10 @@
-# Laporan Praktikum Minggu 1 (sesuaikan minggu ke berapa?)
-Topik: [Tuliskan judul topik, misalnya "Class dan Object"]
+# Laporan Praktikum Minggu 7
+Topik: UML dan SOLID
 
 ## Identitas
-- Nama  : [Muhammad Nuur Fathan]
-- NIM   : [240202840]
-- Kelas : [3IKRA]
+- Nama  : Muhammad Nuur Fathan
+- NIM   : 240202840
+- Kelas : 3IKRA
 
 ---
 
