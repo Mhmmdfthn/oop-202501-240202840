@@ -1,5 +1,5 @@
-# Laporan Praktikum Minggu 7
-Topik: UML dan SOLID
+# Laporan Praktikum Minggu 6
+Topik: Desain Arsitektur Sistem dengan UML dan Prinsip SOLID
 
 ## Identitas
 - Nama  : Muhammad Nuur Fathan
