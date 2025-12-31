@@ -1,0 +1,79 @@
+@startuml
+skinparam style strictuml
+skinparam packageStyle rectangle
+
+package "Model & Entity" {
+    abstract class Produk {
+        - kode: String
+        - nama: String
+        - harga: double
+        - stok: int
+        + {abstract} getInfo(): String
+        + tambahStok(int): void
+    }
+
+    class Benih extends Produk {
+        - varietas: String
+        + getInfo(): String
+    }
+    class Pupuk extends Produk {
+        - jenis: String
+        + getInfo(): String
+    }
+    class AlatPertanian extends Produk {
+        - material: String
+        + getInfo(): String
+    }
+
+    class ShoppingCartMap {
+        - items: Map<Produk, Integer>
+        + addProduct(p: Produk)
+        + getTotal(): double
+    }
+}
+
+package "Abstraction & Payment" {
+    interface Validatable <<interface>> {
+        + validasi(): boolean
+    }
+    interface Receiptable <<interface>> {
+        + cetakStruk(): String
+    }
+    abstract class Pembayaran {
+        # invoiceNo: String
+        # total: double
+        + {abstract} biaya(): double
+        + {abstract} prosesPembayaran(): boolean
+    }
+    class Cash extends Pembayaran implements Receiptable
+    class EWallet extends Pembayaran implements Validatable, Receiptable
+}
+
+package "Strategy (Diskon)" {
+    interface DiscountStrategy <<interface>> {
+        + apply(total: double): double
+    }
+    class PercentageDiscount implements DiscountStrategy
+}
+
+package "Service & Logic" {
+    class PaymentService {
+        + process(p: Pembayaran): boolean
+    }
+    class StockService {
+        + updateStok(cart: ShoppingCartMap)
+    }
+}
+
+package "Controller" {
+    class CheckoutController {
+        + checkout(cart: ShoppingCartMap, p: Pembayaran, d: DiscountStrategy)
+    }
+}
+
+' Relasi
+CheckoutController ..> ShoppingCartMap : manages
+CheckoutController ..> PaymentService : uses
+CheckoutController ..> DiscountStrategy : applies
+PaymentService ..> Pembayaran : executes
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+actor Kasir
+participant "CheckoutController" as CC
+participant "ShoppingCartMap" as SC
+participant "DiscountStrategy" as DS
+participant "PaymentService" as PS
+participant "Pembayaran" as P
+participant "StockService" as SS
+
+Kasir -> CC : checkout(cart, payMethod, strategy)
+activate CC
+
+CC -> SC : getTotal()
+SC --> CC : baseTotal
+
+CC -> DS : apply(baseTotal)
+DS --> CC : discountedTotal
+
+CC -> P : setTotal(discountedTotal)
+CC -> PS : process(P)
+activate PS
+PS -> P : prosesPembayaran()
+P -> P : validasi()
+P --> PS : isSuccess
+PS --> CC : isSuccess
+deactivate PS
+
+alt isSuccess == true
+    CC -> SS : updateStok(cart)
+    SS --> CC : done
+    CC --> Kasir : Tampilkan Struk (Receiptable)
+else isSuccess == false
+    CC --> Kasir : Tampilkan Gagal
+end
+deactivate CC
+@enduml
