@@ -1,0 +1,7 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "praktikum/week11-dao-database/lib/postgresql-42.7.9.jar"
+    ]
+}
