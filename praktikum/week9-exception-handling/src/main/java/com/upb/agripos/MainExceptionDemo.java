@@ -4,7 +4,7 @@ public class MainExceptionDemo {
     @SuppressWarnings("UseSpecificCatch")
     public static void main(String[] args) {
         // 1. Identitas (Wajib sesuai tugas)
-        System.out.println("Hello, I am [Nama]-[NIM] (Week9)");
+        System.out.println("Hello, I am [Muhammad Nuur Fathan]-[240202840] (Week9)");
         System.out.println("------------------------------------");
 
         // 2. Inisialisasi Objek secara langsung (Tanpa Service)

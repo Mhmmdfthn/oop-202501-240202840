@@ -35,20 +35,169 @@ Topik:  **Exception Handling, Custom Exception, dan Penerapan Design Pattern**
 ---
 
 ## Kode Program
-(Tuliskan kode utama yang dibuat, contoh:  
+
+InvalidQuantityException.java
+```java
+package main.java.com.upb.agripos;
+
+public class InsufficientStockException extends Exception {
+    public InsufficientStockException(String message) {
+        super(message);
+    }
+}
+```
+MainExceptionDemo.java
 
 ```java
-// Contoh
-Produk p1 = new Produk("BNH-001", "Benih Padi", 25000, 100);
-System.out.println(p1.getNama());
+package main.java.com.upb.agripos;
+
+public class MainExceptionDemo {
+    @SuppressWarnings("UseSpecificCatch")
+    public static void main(String[] args) {
+        // 1. Identitas (Wajib sesuai tugas)
+        System.out.println("Hello, I am [Muhammad Nuur Fathan]-[240202840] (Week9)");
+        System.out.println("------------------------------------");
+
+        // 2. Inisialisasi Objek secara langsung (Tanpa Service)
+        ShoppingCart cart = new ShoppingCart();
+        Product p1 = new Product("P01", "Pupuk Organik", 25000, 3);
+
+        // 3. Uji Coba InvalidQuantityException
+        try {
+            System.out.println("Mencoba tambah produk dengan qty -1...");
+            cart.addProduct(p1, -1);
+        } catch (InvalidQuantityException e) {
+            System.out.println("Terjadi Kesalahan: " + e.getMessage());
+        }
+
+        // 4. Uji Coba ProductNotFoundException
+        try {
+            System.out.println("\nMencoba hapus produk yang tidak ada di keranjang...");
+            cart.removeProduct(p1);
+        } catch (ProductNotFoundException e) {
+            System.out.println("Terjadi Kesalahan: " + e.getMessage());
+        }
+
+        // 5. Uji Coba InsufficientStockException
+        try {
+            System.out.println("\nMencoba checkout qty 5 (stok hanya 3)...");
+            cart.addProduct(p1, 5);
+            cart.checkout();
+        } catch (Exception e) {
+            // Menangkap semua jenis exception yang mungkin terjadi saat checkout
+            System.out.println("Terjadi Kesalahan: " + e.getMessage());
+        } finally {
+            System.out.println("------------------------------------");
+            System.out.println("Program Selesai.");
+        }
+    }
+}
+
 ```
-)
+
+Product.java
+
+```java
+package main.java.com.upb.agripos;
+
+public class Product {
+    private final String code;
+    private final String name;
+    private final double price;
+    private int stock;
+
+    public Product(String code, String name, double price, int stock) {
+        this.code = code;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+    }
+
+    public String getCode() { return code; }
+    public String getName() { return name; }
+    public double getPrice() { return price; }
+    public int getStock() { return stock; }
+    
+    public void reduceStock(int qty) {
+        this.stock -= qty;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (Stok: " + stock + ")";
+    }
+}
+```
+
+ProductNotFoundException.java
+
+```java
+package main.java.com.upb.agripos;
+
+public class ProductNotFoundException extends Exception {
+    public ProductNotFoundException(String message) {
+        super(message);
+    }
+}
+```
+ShoppingCart.java
+
+```java
+package main.java.com.upb.agripos;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ShoppingCart {
+    private final Map<Product, Integer> items = new HashMap<>();
+
+    public void addProduct(Product p, int qty) throws InvalidQuantityException {
+        if (qty <= 0) {
+            throw new InvalidQuantityException("Gagal Tambah: Quantity harus lebih dari 0.");
+        }
+        items.put(p, items.getOrDefault(p, 0) + qty);
+        System.out.println("Berhasil menambahkan " + qty + " " + p.getName() + " ke keranjang.");
+    }
+
+    public void removeProduct(Product p) throws ProductNotFoundException {
+        if (!items.containsKey(p)) {
+            throw new ProductNotFoundException("Gagal Hapus: Produk '" + p.getName() + "' tidak ada dalam keranjang.");
+        }
+        items.remove(p);
+        System.out.println("Berhasil menghapus " + p.getName() + " dari keranjang.");
+    }
+
+    public void checkout() throws InsufficientStockException {
+        System.out.println("--- Memulai Proses Checkout ---");
+        // Validasi ketersediaan stok untuk semua barang
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            Product product = entry.getKey();
+            int qtyInCart = entry.getValue();
+            
+            if (product.getStock() < qtyInCart) {
+                throw new InsufficientStockException(
+                    "Gagal Checkout: Stok " + product.getName() + 
+                    " tidak cukup (Tersedia: " + product.getStock() + ", Diminta: " + qtyInCart + ")"
+                );
+            }
+        }
+
+        // Jika semua stok cukup, baru kurangi stok asli
+        for (Map.Entry<Product, Integer> entry : items.entrySet()) {
+            entry.getKey().reduceStock(entry.getValue());
+        }
+        
+        items.clear();
+        System.out.println("Checkout Berhasil! Stok produk telah diperbarui.");
+    }
+}
+```
 ---
 
 ## Hasil Eksekusi
-(Sertakan screenshot hasil eksekusi program.  
-![Screenshot hasil](screenshots/hasil.png)
-)
+  
+![Screenshot hasil](screenshots/HasilWeek9.png)
+
 ---
 
 ## Analisis
