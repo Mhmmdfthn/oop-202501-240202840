@@ -1,0 +1,71 @@
+@startuml sequence_admin_crud
+autonumber
+skinparam Style strictuml
+
+actor Admin
+participant "ProductView" as View
+participant "ProductController" as Ctrl
+participant "ProductService" as Svc
+participant "ProductDAO" as DAO
+database "Database" as DB
+
+Admin -> View : 1 Pilih Aksi (Tambah/Edit/Hapus)
+activate View
+
+alt #LightBlue [Aksi: Tambah Produk]
+    View -> Ctrl : 2 handleAdd(productData)
+    activate Ctrl
+    Ctrl -> Svc : 3 createProduct(productDTO)
+    activate Svc
+    Svc -> DAO : 4 insert(productEntity)
+    activate DAO
+    DAO -> DB : 5 SQL INSERT
+    activate DB
+    DB --> DAO : 6 OK
+    deactivate DB
+    DAO --> Svc : 7 Success
+    deactivate DAO
+    Svc --> Ctrl : 8 Success
+    deactivate Svc
+    Ctrl --> View : 9 showSuccessMessage()
+    deactivate Ctrl
+
+else #LightYellow [Aksi: Edit Produk]
+    View -> Ctrl : 10 handleUpdate(id, newData)
+    activate Ctrl
+    Ctrl -> Svc : 11 modifyProduct(id, newData)
+    activate Svc
+    Svc -> DAO : 12 update(id, entity)
+    activate DAO
+    DAO -> DB : 13 SQL UPDATE
+    activate DB
+    DB --> DAO : 14 OK
+    deactivate DB
+    DAO --> Svc : 15 Success
+    deactivate DAO
+    Svc --> Ctrl : 16 Success
+    deactivate Svc
+    Ctrl --> View : 17 showUpdateMessage()
+    deactivate Ctrl
+
+else #LightBlue [# Aksi: Hapus Produk]
+    View -> Ctrl : 18 handleDelete(id)
+    activate Ctrl
+    Ctrl -> Svc : 19 removeProduct(id)
+    activate Svc
+    Svc -> DAO : 20 deleteById(id)
+    activate DAO
+    DAO -> DB : 21 SQL DELETE
+    activate DB
+    DB --> DAO : 22 OK
+    deactivate DB
+    DAO --> Svc : 23 Success
+    deactivate DAO
+    Svc --> Ctrl : 24 Success
+    deactivate Svc
+    Ctrl --> View : 25 refreshList()
+    deactivate Ctrl
+end
+
+deactivate View
+@enduml

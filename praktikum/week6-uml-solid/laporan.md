@@ -37,7 +37,7 @@ Topik: Desain Arsitektur Sistem dengan UML dan Prinsip SOLID
 
 **Usecase diagram :**
 
-![Screenshot hasil](docs/uml_usecase.png)
+![Screenshot hasil](docs/uml_usecasediagram.png)
 
 Diagram ini memetakan hubungan antara aktor dan fungsi utama di dalam sistem:
 
@@ -46,42 +46,59 @@ Diagram ini memetakan hubungan antara aktor dan fungsi utama di dalam sistem:
 * **Fungsi Kasir:** Fokus pada operasional yaitu **Mulai Transaksi (Checkout)** yang secara otomatis mencakup pemilihan metode pembayaran dan pencetakan struk.
 * **Fungsi Bersama:** Kedua aktor harus melalui proses **Login & Autentikasi** untuk mengakses sistem.
 ---
-**Activity diagram (Admin) :**
+**Activity diagram Manajeme produk :**
 
-![Screenshot hasil](docs/uml_activity_admin.png)
+![Screenshot hasil](docs/uml_activitymanajemenproduk.png)
 
 
-* **Aktor Kasir:** Menjelaskan siklus transaksi mulai dari scan produk, pengecekan stok otomatis oleh sistem, hingga percabangan metode pembayaran (Cash vs Digital). Jika transaksi gagal, sistem akan membatalkan proses; jika berhasil, sistem akan memotong stok dan mencetak struk.
-* **Aktor Admin:** Menjelaskan alur manajemen data, di mana Admin dapat melakukan operasi CRUD pada database produk dan melihat rekapitulasi laporan penjualan yang diproses oleh sistem.
+* **Autentikasi:** Admin harus melalui proses *Login* sebelum masuk ke menu manajemen.
+* **Operasi CRUD:** Sistem menyediakan percabangan untuk aksi **Tambah, Edit, dan Hapus**.
+* **Validasi & Feedback:** Setiap input divalidasi oleh sistem. Jika valid, data disimpan ke DB dan muncul "Notifikasi Sukses"; jika tidak, sistem menampilkan pesan *error*.
+* **Sinkronisasi:** Pada proses Edit dan Hapus, sistem melakukan *fetch* data terbaru untuk memastikan data yang diubah adalah data yang valid.
+
 ---
 
-**Activity diagram (Kasir) :**
+**Activity Diagram (Kasir - Transaksi):**
 
-![Screenshot hasil](docs/uml_activity_kasir.png)
+![Screenshot hasil](docs/uml_activitykasirtransaksi.png)
 
-* **Aktor Admin:** Menjelaskan alur manajemen data, di mana Admin dapat melakukan operasi CRUD pada database produk dan melihat rekapitulasi laporan penjualan yang diproses oleh sistem.
+* **Looping Produk:** Kasir dapat memasukkan kode produk berulang kali (`Tambah barang lagi?`) selama stok tersedia.
+* **Validasi Stok:** Sistem secara otomatis mengecek ketersediaan stok sebelum memasukkan barang ke keranjang.
+* **Metode Pembayaran:** Terdapat percabangan logika antara pembayaran **Tunai** (menghitung kembalian) dan **E-Wallet** (melalui *Payment Gateway*).
+* **Finalisasi:** Transaksi hanya akan disimpan dan struk dicetak jika status pembayaran dinyatakan sukses.
+
 ---
 
-**Sequence diagram :**
+**Sequence Diagram (Admin - CRUD Produk):**
 
-![Screenshot hasil](docs/uml_sequence.png)
+![Screenshot hasil](docs/uml_sequenceadmin.png)
+* **Penerapan Layering:** Terlihat alur yang rapi dari `ProductView` -> `ProductController` -> `ProductService` -> `ProductDAO` -> `Database`.
+* **Fragment Alt:** Menggunakan blok *alt* untuk memisahkan logika penambahan, pengubahan, dan penghapusan data dalam satu diagram urutan yang jelas.
 
-Diagram ini menunjukkan interaksi antar objek berdasarkan urutan waktu selama proses **Checkout** berlangsung:
+---
 
-* **Interaksi Utama:** `CheckoutController` menjadi koordinator yang memanggil `ShoppingCartMap` untuk total harga, `DiscountStrategy` untuk menghitung diskon, dan `PaymentService` untuk memproses pembayaran.
-* **Logika Kondisional:** Menggunakan blok **alt** untuk menangani skenario jika pembayaran berhasil (update stok dan cetak struk) atau jika pembayaran gagal.
+---
+
+**Sequence Diagram (Kasir - Transaksi & Checkout):**
+
+![Screenshot hasil](docs/uml_sequencekasir.png)
+
+* **Proses Tambah ke Keranjang:** Melibatkan pengecekan stok ke `ProductDAO` sebelum memperbarui tampilan keranjang.
+* **Proses Pembayaran:** Menunjukkan penggunaan *interface* `IPaymentMethod` yang memungkinkan sistem memproses berbagai jenis pembayaran secara polimorfik.
+* **Integritas Data:** Setelah pembayaran berhasil, sistem melakukan pembaruan stok (`updateStock`) dan menyimpan detail transaksi secara atomik.
+
 ---
 
 **Class diagram :**
 
-![Screenshot hasil](docs/uml_class.png)
+![Screenshot hasil](docs/uml_classdiagram.png)
 
-iagram ini menunjukkan struktur teknis, organisasi kode, dan penerapan prinsip **SOLID**:
+* **Organisasi Package:** Kode dibagi menjadi `view`, `controller`, `service`, `dao`, `payment`, dan `model`.
+* **Relasi Objek:**
+* **Composition:** `Cart` memiliki `CartItem` (jika Cart dihapus, item di dalamnya ikut hilang).
+* **Aggregation:** `CartItem` merujuk ke `Product` (produk tetap ada di sistem meskipun item dihapus dari keranjang).
+* **Abstraction:** Penggunaan *interface* seperti `IProductService` dan `IPaymentMethod` untuk mendukung fleksibilitas kode.
 
-* **Model & Entity:** Menunjukkan hierarki produk (**Benih, Pupuk, Alat**) yang mewarisi sifat dari class `Produk`.
-* **Strategy Pattern:** Digunakan pada `DiscountStrategy` untuk memungkinkan perubahan logika diskon tanpa mengubah kode controller (Open/Closed Principle).
-* **Abstraction & Interface:** Penggunaan interface `Validatable` dan `Receiptable` menunjukkan penerapan *Interface Segregation*, di mana metode pembayaran hanya mengimplementasikan apa yang mereka butuhkan.
-* **Service & Controller:** Memisahkan logika bisnis (`StockService`, `PaymentService`) dari pengatur alur (`CheckoutController`) untuk menjaga *Single Responsibility*.
 ---
 
 ## Penerapan Prinsip SOLID
@@ -89,26 +106,27 @@ iagram ini menunjukkan struktur teknis, organisasi kode, dan penerapan prinsip *
 Desain ini secara eksplisit menerapkan prinsip SOLID sebagai berikut:
 
 * **S - Single Responsibility Principle (SRP):**
-Setiap kelas dalam desain memiliki tanggung jawab tunggal dan spesifik. Hal ini terlihat pada pemisahan **`StockService`** yang hanya menangani pembaruan stok, **`PaymentService`** untuk logika pembayaran, dan **`CheckoutController`** sebagai koordinator alur transaksi.
+Pemisahan yang jelas antara `ProductController` (mengatur alur input), `ProductService` (logika bisnis), dan `ProductDAO` (akses database).
 * **O - Open/Closed Principle (OCP):**
-Sistem didesain agar terbuka untuk pengembangan tetapi tertutup untuk modifikasi. Dengan adanya interface **`DiscountStrategy`** dan class abstrak **`Pembayaran`**, Anda dapat menambah jenis diskon baru (misal: *SeasonalDiscount*) atau metode pembayaran baru (misal: *QRIS*) tanpa perlu mengubah kode inti pada **`CheckoutController`**.
+Terlihat pada package `payment`. Dengan adanya *interface* **`IPaymentMethod`**, kita bisa menambah metode pembayaran baru (misal: *CryptoPayment*) tanpa mengubah logika di `TransactionService`.
 * **L - Liskov Substitution Principle (LSP):**
-Objek dari sub-kelas harus dapat menggantikan objek dari super-kelasnya tanpa merusak fungsionalitas sistem. Pada diagram Anda, kelas **`Benih`**, **`Pupuk`**, dan **`AlatPertanian`** adalah turunan dari **`Produk`**; mereka dapat digunakan secara bergantian dalam **`ShoppingCartMap`** karena semuanya mematuhi kontrak yang didefinisikan di kelas induk.
+**`CashPayment`** dan **`EWalletPayment`** dapat menggantikan **`IPaymentMethod`** tanpa merusak alur proses `checkout`.
 * **I - Interface Segregation Principle (ISP):**
-Penggunaan interface yang spesifik lebih baik daripada satu interface besar. Pemisahan antara **`Validatable`** (untuk validasi digital) dan **`Receiptable`** (untuk pencetakan struk) sangat tepat; kelas **`Cash`** hanya mengimplementasikan **`Receiptable`** karena tidak memerlukan validasi digital, sementara **`EWallet`** mengimplementasikan keduanya.
+Setiap *interface* (`IProductService`, `ITransactionService`) dibuat spesifik untuk tugasnya masing-masing, tidak digabung menjadi satu *interface* besar yang "gemuk".
 * **D - Dependency Inversion Principle (DIP):**
-Kelas tingkat tinggi tidak boleh bergantung pada kelas tingkat rendah, keduanya harus bergantung pada abstraksi. **`CheckoutController`** dan **`PaymentService`** tidak bergantung langsung pada kelas konkrit seperti **`EWallet`**, melainkan berinteraksi melalui abstraksi interface/class abstrak seperti **`DiscountStrategy`** dan **`Pembayaran`**.
+Controller tidak bergantung langsung pada kelas implementasi (`ServiceImpl`), melainkan bergantung pada abstraksi (*interface*). Ini ditandai dengan label **DIP** pada panah relasi di Class Diagram.
 
 ---
 
 ## Tabel Traceability
 
-| FR | Use Case | Activity/Sequence | Class/Interface |
-| --- | --- | --- | --- |
-| Manajemen Produk | Kelola Produk (CRUD) | Activity Admin | Produk, Pupuk, AlatPertanian, Benih |
-| Transaksi Penjualan | Mulai Transaksi (Checkout) | Sequence Checkout | CheckoutController, ShoppingCartMap |
-| Metode Pembayaran | Pilih Metode Pembayaran | Seq Pembayaran | Pembayaran, EWallet, Cash |
-| Diskon & Promosi | (Optional) | Sequence Checkout | DiscountStrategy, PercentageDiscount |
+| Functional Requirement (FR) | Use Case | Activity / Sequence Diagram | Class & Interface Utama |
+| :--- | :--- | :--- | :--- |
+| **Manajemen Produk** | Kelola Produk (CRUD) | Activity Manajemen Produk / Sequence Admin | `ProductController`, `IProductService`, `IProductDAO`, `Product` |
+| **Transaksi Penjualan** | Input Barang & Update Keranjang | Activity Transaksi / Sequence Kasir | `TransactionController`, `ITransactionService`, `Cart`, `CartItem` |
+| **Manajemen Stok** | Validasi & Update Stok Otomatis | Activity Transaksi (Sistem) / Sequence Kasir | `ProductDAO`, `Product` (metode `updateStok`) |
+| **Metode Pembayaran** | Pilih & Proses Pembayaran | Activity Transaksi / Sequence Kasir | `IPaymentMethod`, `CashPayment`, `EWalletPayment` |
+| **Penyimpanan Data** | Simpan Transaksi & Cetak Struk | Sequence Kasir (Checkout) | `ITransactionDAO`, `Transaction`, `TransactionView` |
 
 ---
 

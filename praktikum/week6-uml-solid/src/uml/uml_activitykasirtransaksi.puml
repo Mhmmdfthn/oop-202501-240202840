@@ -1,0 +1,34 @@
+@startuml activity_kasir
+|Kasir|
+start
+:Buka Menu Transaksi;
+repeat
+    :Input Kode Produk;
+|Sistem|
+    :Validasi Kode & Stok;
+    if (Stok Tersedia?) then (Ya)
+        :Tambahkan ke Keranjang;
+        :Update Subtotal;
+    else (Tidak)
+        :Tampilkan Error "Stok Tidak Mencukupi";
+    endif
+|Kasir|
+repeat while (Tambah barang lagi?) is (Ya)
+->Tidak;
+:Pilih Metode Pembayaran;
+|Sistem|
+if (Metode Pembayaran?) then (E-Wallet)
+    :Proses Payment Gateway;
+    if (Status Sukses?) then (Ya)
+        :Notif Sukses;
+    else (Tidak)
+        :Tampilkan "Pembayaran Gagal";
+    endif
+else (Tunai)
+    :Terima Uang Tunai;
+    :Hitung Kembalian;
+endif
+:Simpan Transaksi;
+:Cetak Struk;
+stop
+@enduml

@@ -1,0 +1,84 @@
+@startuml
+skinparam style strictuml
+autonumber
+
+actor Kasir
+participant TransactionView
+participant TransactionController
+participant TransactionService
+participant "<<interface>>\nIPaymentMethod" as IPaymentMethod
+participant ProductDAO
+participant TransactionDAO
+database Database
+
+== Proses Tambah ke Keranjang ==
+
+Kasir -> TransactionView : Input Produk & Qty
+activate TransactionView
+TransactionView -> TransactionController : addToCart(productId, qty)
+activate TransactionController
+TransactionController -> TransactionService : validateAndAdd(productId, qty)
+activate TransactionService
+TransactionService -> ProductDAO : checkStock(productId)
+activate ProductDAO
+ProductDAO -> Database : SELECT stock FROM products
+activate Database
+Database --> ProductDAO : stockData
+deactivate Database
+ProductDAO --> TransactionService : currentStock
+deactivate ProductDAO
+
+alt Stok Cukup
+    TransactionService -> TransactionService : updateTemporaryCart()
+    TransactionService --> TransactionController : ItemAdded
+    TransactionController --> TransactionView : refreshCartDisplay()
+else Stok Tidak Cukup
+    TransactionService --> TransactionController : Error(Insufficient Stock)
+    TransactionController --> TransactionView : showErrorMessage()
+end
+deactivate TransactionService
+deactivate TransactionController
+deactivate TransactionView
+
+== Proses Pembayaran (Checkout) ==
+
+Kasir -> TransactionView : Klik Bayar & Pilih Metode
+activate TransactionView
+TransactionView -> TransactionController : processCheckout(paymentType)
+activate TransactionController
+TransactionController -> TransactionService : checkout(cartId, paymentType)
+activate TransactionService
+TransactionService -> IPaymentMethod : pay(totalAmount)
+activate IPaymentMethod
+IPaymentMethod --> TransactionService : PaymentStatus(Success/Fail)
+deactivate IPaymentMethod
+
+alt Pembayaran Berhasil
+    TransactionService -> TransactionDAO : saveTransaction(cartData)
+    activate TransactionDAO
+    TransactionDAO -> Database : INSERT INTO transactions
+    activate Database
+    Database --> TransactionDAO : OK
+    deactivate Database
+    deactivate TransactionDAO
+    
+    TransactionService -> ProductDAO : updateStock(products)
+    activate ProductDAO
+    ProductDAO -> Database : UPDATE stock...
+    activate Database
+    Database --> ProductDAO : OK
+    deactivate Database
+    deactivate ProductDAO
+    
+    TransactionService --> TransactionController : TransactionComplete
+    TransactionController --> TransactionView : showReceipt()
+else Pembayaran Gagal
+    TransactionService --> TransactionController : PaymentFailed
+    TransactionController --> TransactionView : showPaymentErrorMessage()
+end
+
+deactivate TransactionService
+deactivate TransactionController
+deactivate TransactionView
+
+@enduml

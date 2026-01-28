@@ -1,0 +1,109 @@
+@startuml class_diagram_agripos_final
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+package "com.upb.agripos.view" {
+    class ProductView {
+        +displayProducts(products: List)
+        +showSuccess(message: String)
+        +showError(message: String)
+    }
+    class TransactionView {
+        +displayCart(cart: Cart)
+        +inputPaymentMethod()
+        +printReceipt(trans: Transaction)
+    }
+}
+
+package "com.upb.agripos.controller" {
+    class ProductController {
+        -service: IProductService
+        +handleAdd(data: Map)
+        +handleUpdate(id: String, data: Map)
+        +handleDelete(id: String)
+    }
+    class TransactionController {
+        -service: ITransactionService
+        +addToCart(productId: String, qty: int)
+        +processCheckout(method: String)
+    }
+}
+
+package "com.upb.agripos.service" {
+    interface IProductService <<interface>> {
+        +createProduct(dto: ProductDTO)
+        +modifyProduct(id: String, dto: ProductDTO)
+        +removeProduct(id: String)
+    }
+    interface ITransactionService <<interface>> {
+        +validateAndAdd(id: String, qty: int)
+        +checkout(cartId: String, type: String)
+    }
+    
+    class ProductServiceImpl implements IProductService
+    class TransactionServiceImpl implements ITransactionService
+}
+
+package "com.upb.agripos.dao" {
+    interface IProductDAO <<interface>> {
+        +save(p: Product)
+        +update(id: String, p: Product)
+        +deleteById(id: String)
+        +findById(id: String): Product
+    }
+    interface ITransactionDAO <<interface>> {
+        +saveTransaction(t: Transaction)
+    }
+    
+    class ProductDAOImpl implements IProductDAO
+    class TransactionDAOImpl implements ITransactionDAO
+}
+
+package "com.upb.agripos.model" {
+    class Product {
+        -kode: String
+        -nama: String
+        -harga: double
+        -stok: int
+        +updateStok(qty: int)
+    }
+    
+    class Cart {
+        -id: String
+        -totalAmount: double
+        +calculateTotal()
+    }
+    
+    class CartItem {
+        -qty: int
+        -subtotal: double
+    }
+    
+    class Transaction {
+        -transId: String
+        -date: Date
+        -total: double
+    }
+}
+
+package "com.upb.agripos.payment" {
+    interface IPaymentMethod <<interface>> {
+        +pay(amount: double): boolean
+    }
+    class CashPayment implements IPaymentMethod
+    class EWalletPayment implements IPaymentMethod
+}
+
+' Relasi Arsitektur
+ProductController --> IProductService : DIP
+TransactionController --> ITransactionService : DIP
+ProductServiceImpl --> IProductDAO : DIP
+TransactionServiceImpl --> ITransactionDAO : DIP
+TransactionServiceImpl --> IPaymentMethod : OCP (Strategy)
+
+' Relasi Keranjang (Sesuai Permintaan)
+Cart "1" *-- "many" CartItem : composition
+CartItem "many" o-- "1" Product : aggregation
+Transaction "1" -- "1" Cart : references
+
+@enduml

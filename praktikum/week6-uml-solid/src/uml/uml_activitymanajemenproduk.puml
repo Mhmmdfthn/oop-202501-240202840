@@ -1,0 +1,40 @@
+@startuml activity_admin_final
+|Admin|
+start
+:Login Admin;
+:Buka Manajemen Produk;
+
+if (Pilih Aksi?) then (Tambah)
+  :Input Data Produk Baru;
+  |Sistem|
+  :Validasi Input;
+  if (Valid?) then (Ya)
+    :Simpan ke DB;
+    :Notifikasi Sukses;
+  else (Tidak)
+    :Tampilkan Error;
+  endif
+else
+  if (Aksi?) then (Edit)
+    |Admin|
+    :Pilih Produk;
+    |Sistem|
+    :Fetch Data dari DB;
+    :Tampilkan Data di Form;
+    |Admin|
+    :Update Data;
+    |Sistem|
+    :Validasi & Update DB;
+    :Notifikasi Sukses;
+  else (Hapus)
+    |Admin|
+    :Pilih Produk;
+    |Sistem|
+    :Hapus Data dari DB;
+    :Refresh Daftar;
+  endif
+endif
+
+|Sistem|
+stop
+@enduml
