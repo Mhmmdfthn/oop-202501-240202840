@@ -1,10 +1,10 @@
-# Laporan Praktikum Minggu 1 (sesuaikan minggu ke berapa?)
-Topik: [Tuliskan judul topik, misalnya "Class dan Object"]
+# Laporan Praktikum Minggu 13
+Topik: GUI Lanjutan
 
 ## Identitas
-- Nama  : [Nama Mahasiswa]
-- NIM   : [NIM Mahasiswa]
-- Kelas : [Kelas]
+- Nama  : Muhammad  NUur Fathan
+- NIM   : 240202840
+- Kelas : 3IKRA
 
 ---
 
@@ -302,5 +302,6 @@ public class AppJavaFX extends Application {
 | **Sequence** | SD-02 Hapus Produk | Lambda Handler | View  Controller  Service | DAO  Database | Urutan panggil sesuai desain |
 
 ## Kesimpulan
-Praktikum Minggu 13 berhasil meningkatkan kapabilitas antarmuka Agri-POS. Dengan integrasi `TableView` dan `Lambda Expression`, aplikasi menjadi lebih interaktif dan profesional. Pemisahan layer yang konsisten memastikan fitur hapus dapat diimplementasikan dengan dampak minimal pada komponen kode lainnya.
+
+*  Praktikum Minggu 13 berhasil meningkatkan kapabilitas antarmuka Agri-POS. Dengan integrasi `TableView` dan `Lambda Expression`, aplikasi menjadi lebih interaktif dan profesional. Pemisahan layer yang konsisten memastikan fitur hapus dapat diimplementasikan dengan dampak minimal pada komponen kode lainnya.
 ---
