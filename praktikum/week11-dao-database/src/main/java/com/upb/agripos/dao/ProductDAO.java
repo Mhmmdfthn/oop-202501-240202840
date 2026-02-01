@@ -1,7 +1,8 @@
-package main.java.com.upb.agripos.dao;
+package com.upb.agripos.dao;
 
 import java.util.List;
-import main.java.com.upb.agripos.model.Product;
+
+import com.upb.agripos.model.Product;
 
 public interface ProductDAO {
     void insert(Product product) throws Exception;

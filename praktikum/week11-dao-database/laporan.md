@@ -299,9 +299,9 @@ public class MainDAOTest {
 ---
 
 ## Hasil Eksekusi
-(Sertakan screenshot hasil eksekusi program.  
-![Screenshot hasil](screenshots/Hasilweek11.png)
-)
+
+![Screenshot hasil](screenshots/HasilWeek11.png)
+
 ---
 
 ## Analisis

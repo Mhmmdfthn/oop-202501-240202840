@@ -1,71 +1,67 @@
-package main.java.com.upb;
+package com.upb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
 
-import main.java.com.upb.agripos.dao.ProductDAO;
-import main.java.com.upb.agripos.dao.ProductDAOImpl;
-import main.java.com.upb.agripos.model.Product;
+import com.upb.agripos.dao.ProductDAO;
+import com.upb.agripos.dao.ProductDAOImpl;
+import com.upb.agripos.model.Product;
 
 public class MainDAOTest {
     public static void main(String[] args) {
-        // Ganti parameter DB_URL, USER, PASS sesuai setting lokalmu
-        String DB_URL = "jdbc:postgresql://localhost:5432/agripos";
-        String USER = "postgres"; 
-        String PASS = "admin123"; 
+        // Konfigurasi koneksi database
+        String url = "jdbc:postgresql://localhost:5432/agripos";
+        String user = "postgres";
+        String pass = "admin123"; 
 
-        try {
-            // 1. Buat Koneksi
-            Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Koneksi ke database berhasil!");
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            System.out.println("Koneksi Berhasil!\n");
 
-            // 2. Inisialisasi DAO
             ProductDAO dao = new ProductDAOImpl(conn);
 
-            // --- TEST INSERT ---
-            System.out.println("\n[1] Menambahkan Produk Baru...");
-            Product p1 = new Product("P01", "Pupuk Organik", 25000.0, 50);
-            Product p2 = new Product("P02", "Benih Jagung", 15000.0, 100);
-            dao.insert(p1);
-            dao.insert(p2);
-            System.out.println("Produk P01 dan P02 berhasil ditambahkan.");
+            // 1. INSERT (Create)
+            System.out.println(">> Menambahkan data P01 dan P02...");
+            dao.insert(new Product("P01", "Pupuk Organik", 25000, 10));
+            dao.insert(new Product("P02", "Bibit Padi Unggul", 15000, 50));
 
-            // --- TEST READ (Find All) ---
-            System.out.println("\n[2] Menampilkan Semua Produk:");
-            List<Product> allProducts = dao.findAll();
-            for (Product p : allProducts) {
-                System.out.println("- " + p.getCode() + " | " + p.getName() + " | Rp" + p.getPrice());
+            // 2. FIND ALL (Read)
+            showData(dao);
+
+            // 3. UPDATE (Update)
+            System.out.println("\n>> Mengupdate harga P01...");
+            Product p01 = dao.findByCode("P01");
+            if (p01 != null) {
+                p01.setName("Pupuk Organik Premium");
+                p01.setPrice(30000);
+                dao.update(p01);
             }
 
-            // --- TEST UPDATE ---
-            System.out.println("\n[3] Mengupdate Stok P01...");
-            Product pUpdate = dao.findByCode("P01");
-            if(pUpdate != null) {
-                pUpdate.setName("Pupuk Organik Super");
-                pUpdate.setPrice(28000);
-                dao.update(pUpdate);
-                System.out.println("Update berhasil.");
-            }
+            // 4. FIND ONE (Read)
+            Product updatedProduct = dao.findByCode("P01");
+            System.out.println("Data P01 Sekarang: " + updatedProduct.getName() + " | Harga: " + updatedProduct.getPrice());
 
-            // --- TEST READ (Find One) ---
-            System.out.println("\n[4] Cek Hasil Update P01:");
-            Product pCheck = dao.findByCode("P01");
-            if(pCheck != null){
-                System.out.println("Data: " + pCheck.getName() + " - Harga: " + pCheck.getPrice());
-            }
-
-            // --- TEST DELETE ---
-            System.out.println("\n[5] Menghapus P02...");
+            // 5. DELETE (Delete)
+            System.out.println("\n>> Menghapus data P02...");
             dao.delete("P02");
-            System.out.println("P02 dihapus.");
 
-            // Tutup koneksi
-            conn.close();
-            System.out.println("\nKoneksi ditutup. Program selesai.");
+            // Tampilkan hasil akhir
+            showData(dao);
 
         } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    // Helper method untuk menampilkan data ke konsol
+    private static void showData(ProductDAO dao) throws Exception {
+        List<Product> products = dao.findAll();
+        System.out.println("--- Daftar Produk di Database ---");
+        for (Product p : products) {
+            System.out.printf("[%s] %-25s | Rp%,.2f | Stok: %d\n", 
+                p.getCode(), p.getName(), p.getPrice(), p.getStock());
+        }
+        System.out.println("Total: " + products.size() + " produk.");
     }
 }
