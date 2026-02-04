@@ -8,13 +8,13 @@ Topic : Proyek Kelompok (Desain Sistem + Implementasi Terintegrasi + Testing + D
 
 ## 1. Identitas Kelompok
 
-| Nama | NIM | Peran Utama |
-| --- | --- | --- |
-| **Ditha Elita Putri** | 240202832 | UI Designer & Frontend (JavaFX View) |
-| **Fauzatul Farhanah** | 240202834 | Backend Authentication & Security |
-| **Muhammad Nuur Fathan** | 240202840 | Backend Transaction Logic & Cart Service |
-| **Diva Nur Azizah** | 240202859 | Database Specialist & Product Management (CRUD) |
-| **Hanifah** | 240202864 | Reporting, Payment Strategy & QA |
+| Nama | NIM |
+| --- | --- |
+| **Ditha Elita Putri** | 240202832 |
+| **Fauzatul Farhanah** | 240202834 |
+| **Muhammad Nuur Fathan** | 240202840 |
+| **Diva Nur Azizah** | 240202859 |
+| **Hanifah** | 240202864 |
 
 ---
 
@@ -170,13 +170,13 @@ CREATE TABLE transaction_items (
 
 ## 8. Kontribusi Anggota
 
-| Nama | Modul / Fitur | Deskripsi Kontribusi |
+| Nama | NIM | Peran Utama |
 | --- | --- | --- |
-| **Ditha** | Frontend | Layouting JavaFX, LoginView, dan PosView responsif. |
-| **Fauzatul** | Auth | Implementasi AuthService, Session Management, dan Security. |
-| **Nuur Fathan** | Logic | Implementasi CartService, TransactionService, dan Business Logic. |
-| **Diva** | Data | Perancangan Database PostgreSQL dan CRUD Product DAO. |
-| **Hanifah** | QA/Report | Unit Testing, fitur Receipt, dan Strategy Pattern Pembayaran. |
+| **Ditha Elita Putri** | 240202832 | UI Designer & Frontend (JavaFX View) |
+| **Fauzatul Farhanah** | 240202834 | Backend Authentication & Security |
+| **Muhammad Nuur Fathan** | 240202840 | Backend Transaction Logic & Cart Service |
+| **Diva Nur Azizah** | 240202859 | Database Specialist & Product Management (CRUD) |
+| **Hanifah** | 240202864 | Reporting, Payment Strategy & QA |
 
 ---
 
@@ -193,8 +193,6 @@ CREATE TABLE transaction_items (
 3. **Kendala:** Kompleksitas FXML.
 * **Solusi:** Migrasi ke **JavaFX Code-based** untuk kontrol dinamis yang lebih baik.
 
-
-
 ---
 
 ## 10. Lampiran
@@ -203,9 +201,14 @@ CREATE TABLE transaction_items (
 * **File SQL:** `sql/database schema.sql`
 * **Desain Interface:** 
 
-1. **Login**![Screenshot hasil](screenshots/desain_interface/LOGIN.png)
+1. **Login**
+---
+![Screenshot hasil](screenshots/desain_interface/LOGIN.png)
+---
 2. **Kasir**![Screenshot hasil](screenshots/desain_interface/KASIR.png)
+---
 3. **Report Admin**![Screenshot hasil](screenshots/desain_interface/ADMIN_REPORT.png)
+---
 4. **Manajemen Produk**![Screenshot hasil](screenshots/desain_interface/ADMIN_CRUD.png)
-
+---
 * **Demo:** https://youtu.be/GWICs4Wg0VE
